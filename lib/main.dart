@@ -1,11 +1,14 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify_app/core/theme_app/app_theme.dart';
 import 'package:spotify_app/features/intro/theme_cubit/theme_cubit.dart';
 import 'package:spotify_app/features/splash/presentation/widgets/splashVIew.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 }
 
 class MyApp extends StatelessWidget {

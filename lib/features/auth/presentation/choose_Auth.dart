@@ -5,7 +5,9 @@ import 'package:spotify_app/core/assets/vectors/vectors.dart';
 import 'package:spotify_app/core/helpers/Is_darkmode.dart';
 
 import 'package:spotify_app/core/widgets/basic_appbar.dart';
-import 'package:spotify_app/core/widgets/showlogo.dart';
+import 'package:spotify_app/features/auth/presentation/sign_in.dart';
+
+import 'package:spotify_app/features/auth/presentation/sign_up.dart';
 
 import '../../../core/theme_app/app_color.dart';
 
@@ -38,7 +40,6 @@ class ChooseAuth extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Showlogo(),
                     const SizedBox(
                       height: 30,
                     ),
@@ -59,34 +60,53 @@ class ChooseAuth extends StatelessWidget {
                       height: 18,
                     ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           flex: 1,
                           child: ElevatedButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Register',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const SignUpScreen()));
+                            },
                             style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(double.infinity, 80),
                                 backgroundColor: AppColor.primary,
                                 textStyle: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.w800)),
+                            child: const Text(
+                              'Register',
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
+                        ),
+                        const SizedBox(
+                          width: 10,
                         ),
                         Expanded(
                             flex: 1,
-                            child: TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  'Sign in',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: context.Isdarkmode
-                                          ? Colors.white
-                                          : Colors.black),
-                                )))
+                            child: SizedBox(
+                              height: 80,
+                              child: TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const SignInScreen()));
+                                  },
+                                  child: Text(
+                                    'Sign in',
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: context.Isdarkmode
+                                            ? Colors.white
+                                            : Colors.black),
+                                  )),
+                            ))
                       ],
                     )
                   ],
