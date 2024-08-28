@@ -8,21 +8,25 @@ class CustomFormfield extends StatelessWidget {
       this.onsaved,
       required this.hint,
       required this.labelhint,
-      required this.iconString});
+      required this.iconString,
+      this.controller});
   final Function(String?)? onsaved;
   final String hint;
   final String labelhint;
   final String iconString;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: TextFormField(
+        controller: controller,
         validator: (value) {
           if (value!.isEmpty) {
             return 'this feild is reqiured';
           }
+          return null;
         },
         onSaved: onsaved,
         onChanged: onsaved,

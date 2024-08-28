@@ -1,10 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:spotify_app/core/helpers/Is_darkmode.dart';
+import 'package:spotify_app/features/Root/presentation/root_view.dart';
+import 'package:spotify_app/features/auth/data/models/create_user_req.dart';
+import 'package:spotify_app/features/auth/domain/usecase/auth_usecase.dart';
+import 'package:spotify_app/serviceLocator.dart';
 
 import '../../../../core/theme_app/app_color.dart';
 import '../../../../core/widgets/textformfield.dart';
 
-class SignUpForm extends StatelessWidget {
-  const SignUpForm({super.key});
+class SignUpForm extends StatefulWidget {
+  SignUpForm({super.key});
+
+  @override
+  State<SignUpForm> createState() => _SignUpFormState();
+}
+
+class _SignUpFormState extends State<SignUpForm> {
+  final TextEditingController _email = TextEditingController();
+
+  final TextEditingController _password = TextEditingController();
+
+  final TextEditingController _fullname = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -12,21 +28,45 @@ class SignUpForm extends StatelessWidget {
       child: Column(
         children: [
           CustomFormfield(
-              onsaved: (p0) {},
+              controller: _fullname,
+              hint: 'Enter your Fullname',
+              labelhint: 'Fullname',
+              iconString: mailIcon),
+          CustomFormfield(
+              controller: _email,
               hint: 'Enter your Email',
               labelhint: 'Email',
-              iconString: mailIcon),
-          const CustomFormfield(
-              hint: 'Enter your Password',
-              labelhint: 'Password',
               iconString: lockIcon),
-          const CustomFormfield(
-              hint: 'Re-Enter your Password',
+          CustomFormfield(
+              controller: _password,
+              hint: 'Enter your Password',
               labelhint: 'Password',
               iconString: lockIcon),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () async {
+              var result = await sl<SignUpUsecase>().call(
+                  params: CreateUserReq(
+                      password: _password.text.toString(),
+                      fullname: _fullname.text.toString(),
+                      email: _email.text.toString()));
+              result.fold((l) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    l,
+                    style: TextStyle(
+                      color: context.Isdarkmode ? Colors.white : Colors.black,
+                    ),
+                  ),
+                  behavior: SnackBarBehavior.floating,
+                ));
+              }, (r) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const RootView()),
+                    (root) => false);
+              });
+            },
             style: ElevatedButton.styleFrom(
               elevation: 0,
               backgroundColor: AppColor.primary,
@@ -44,6 +84,14 @@ class SignUpForm extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    _fullname.dispose();
+    super.dispose();
   }
 }
 

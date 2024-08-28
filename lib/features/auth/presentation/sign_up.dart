@@ -37,7 +37,7 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                  const SignUpForm(),
+                  SignUpForm(),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

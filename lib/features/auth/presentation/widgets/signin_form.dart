@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:spotify_app/core/helpers/Is_darkmode.dart';
+
+import 'package:spotify_app/features/auth/data/models/signIn_user_req.dart';
+import 'package:spotify_app/features/auth/domain/usecase/auth_usecase.dart';
+import 'package:spotify_app/serviceLocator.dart';
 
 import '../../../../core/theme_app/app_color.dart';
 import '../../../../core/widgets/textformfield.dart';
+import '../../../Root/presentation/root_view.dart';
 
-class SignInForm extends StatelessWidget {
+class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
+
+  @override
+  State<SignInForm> createState() => _SignInFormState();
+}
+
+class _SignInFormState extends State<SignInForm> {
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -12,17 +26,39 @@ class SignInForm extends StatelessWidget {
       child: Column(
         children: [
           CustomFormfield(
-              onsaved: (p0) {},
+              controller: _email,
               hint: 'Enter your Email',
               labelhint: 'Email',
               iconString: mailIcon),
-          const CustomFormfield(
+          CustomFormfield(
+              controller: _password,
               hint: 'Enter your Password',
               labelhint: 'Password',
               iconString: lockIcon),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () async {
+              var result = await sl<SigninUsecase>().call(
+                  params: SigninUserReq(
+                      password: _password.text.toString(),
+                      email: _email.text.toString()));
+              result.fold((l) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    l,
+                    style: TextStyle(
+                      color: context.Isdarkmode ? Colors.white : Colors.black,
+                    ),
+                  ),
+                  behavior: SnackBarBehavior.floating,
+                ));
+              }, (r) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const RootView()),
+                    (root) => false);
+              });
+            },
             style: ElevatedButton.styleFrom(
               elevation: 0,
               backgroundColor: AppColor.primary,
@@ -40,6 +76,14 @@ class SignInForm extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+
+    super.dispose();
   }
 }
 

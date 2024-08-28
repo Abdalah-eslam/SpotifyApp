@@ -4,11 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify_app/core/theme_app/app_theme.dart';
 import 'package:spotify_app/features/intro/theme_cubit/theme_cubit.dart';
 import 'package:spotify_app/features/splash/presentation/widgets/splashVIew.dart';
+import 'package:spotify_app/serviceLocator.dart';
 
 void main() async {
-  runApp(const MyApp());
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await inisializeDebend();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
