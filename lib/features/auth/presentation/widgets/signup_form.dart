@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spotify_app/core/helpers/Is_darkmode.dart';
-import 'package:spotify_app/features/Root/presentation/root_view.dart';
+import 'package:spotify_app/features/home/presentation/home_view.dart';
 import 'package:spotify_app/features/auth/data/models/create_user_req.dart';
 import 'package:spotify_app/features/auth/domain/usecase/auth_usecase.dart';
 import 'package:spotify_app/serviceLocator.dart';
@@ -63,8 +63,8 @@ class _SignUpFormState extends State<SignUpForm> {
               }, (r) {
                 Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => const RootView()),
-                    (root) => false);
+                    MaterialPageRoute(builder: (context) => const HomeView()),
+                    (route) => false);
               });
             },
             style: ElevatedButton.styleFrom(

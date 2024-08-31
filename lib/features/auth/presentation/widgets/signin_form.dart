@@ -7,7 +7,7 @@ import 'package:spotify_app/serviceLocator.dart';
 
 import '../../../../core/theme_app/app_color.dart';
 import '../../../../core/widgets/textformfield.dart';
-import '../../../Root/presentation/root_view.dart';
+import '../../../home/presentation/home_view.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
@@ -55,8 +55,8 @@ class _SignInFormState extends State<SignInForm> {
               }, (r) {
                 Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => const RootView()),
-                    (root) => false);
+                    MaterialPageRoute(builder: (context) => const HomeView()),
+                    (route) => false);
               });
             },
             style: ElevatedButton.styleFrom(

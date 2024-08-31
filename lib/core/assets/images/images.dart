@@ -3,4 +3,5 @@ class Images {
   static const introBg = '${base}introBg.png';
   static const themeBg = '${base}themeBg.png';
   static const AuthBg = '${base}authBg.png';
+  static const homeartist = '${base}homeArtist.png';
 }

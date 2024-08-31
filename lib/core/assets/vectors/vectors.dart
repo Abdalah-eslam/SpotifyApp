@@ -4,4 +4,5 @@ class Vectors {
 
   static const Logo = '${base}logo$format';
   static const authBg = '${base}Bottom$format';
+  static const home = '${base}home$format';
 }
