@@ -3,21 +3,13 @@ import 'package:spotify_app/core/helpers/Is_darkmode.dart';
 import 'package:spotify_app/core/theme_app/app_color.dart';
 
 class customTapbar extends StatefulWidget {
-  const customTapbar({super.key});
-
+  const customTapbar({super.key, required this.tabController});
+  final TabController tabController;
   @override
   State<customTapbar> createState() => _customTapbarState();
 }
 
-class _customTapbarState extends State<customTapbar>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  @override
-  void initState() {
-    _tabController = TabController(length: 4, vsync: this);
-    super.initState();
-  }
-
+class _customTapbarState extends State<customTapbar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,15 +18,18 @@ class _customTapbarState extends State<customTapbar>
         height: 40,
         width: double.infinity,
         child: TabBar(
+          overlayColor: const WidgetStatePropertyAll(Colors.transparent),
           enableFeedback: true,
           unselectedLabelStyle: TextStyle(
-              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              fontSize: 15,
               color: context.Isdarkmode ? AppColor.gray : AppColor.darkgray),
           dividerColor: Colors.transparent,
-          controller: _tabController,
+          controller: widget.tabController,
           indicatorColor: AppColor.primary,
           labelStyle: TextStyle(
-              fontSize: 20,
+              fontWeight: FontWeight.w900,
+              fontSize: 17,
               color: context.Isdarkmode ? Colors.white : Colors.black),
           tabs: const [
             Text('News'),

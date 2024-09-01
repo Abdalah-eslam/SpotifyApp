@@ -5,5 +5,9 @@ class Songenitites {
   final num duration;
   final Timestamp releaseDate;
 
-  Songenitites(this.title, this.Artist, this.duration, this.releaseDate);
+  Songenitites(
+      {required this.title,
+      required this.Artist,
+      required this.duration,
+      required this.releaseDate});
 }
