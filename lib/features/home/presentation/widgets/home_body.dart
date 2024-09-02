@@ -27,7 +27,7 @@ class _HomeBodyState extends State<HomeBody>
         homecard(),
         customTapbar(tabController: _tabController),
         SizedBox(
-          height: MediaQuery.of(context).size.height * .5,
+          height: MediaQuery.of(context).size.height * .76,
           child: TabBarView(
             controller: _tabController,
             children: const [
