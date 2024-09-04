@@ -8,6 +8,7 @@ part 'news_songs_state.dart';
 
 class NewsSongsCubit extends Cubit<NewsSongsState> {
   NewsSongsCubit() : super(NewsSongsLoading());
+
   Future<void> getNewsSong() async {
     var data = await sl.get<NewestsongUsecase>().call();
     data.fold((l) {

@@ -5,8 +5,10 @@ import 'package:spotify_app/core/theme_app/app_theme.dart';
 import 'package:spotify_app/features/intro/theme_cubit/theme_cubit.dart';
 import 'package:spotify_app/features/splash/presentation/widgets/splashVIew.dart';
 import 'package:spotify_app/serviceLocator.dart';
+import 'package:spotify_app/simpleObservel.dart';
 
 void main() async {
+  Bloc.observer = SimpleBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await inisializeDebend();

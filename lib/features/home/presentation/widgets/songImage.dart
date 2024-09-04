@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:spotify_app/core/helpers/Is_darkmode.dart';
 import 'package:spotify_app/core/theme_app/app_color.dart';
 
+import '../../../songPlayer/presentation/Songplayer.dart';
+import '../../domain/entities/songEnitites.dart';
+
 class SongImage extends StatelessWidget {
-  const SongImage({super.key, required this.imageSrc});
+  const SongImage({super.key, required this.imageSrc, required this.song});
   final String imageSrc;
+  final Songenitites song;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -14,15 +18,16 @@ class SongImage extends StatelessWidget {
         aspectRatio: 2.5 / 4,
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: CachedNetworkImageProvider(
-                  'https://firebasestorage.googleapis.com/v0/b/spotify-59c56.appspot.com/o/covers%2F' +
-                      imageSrc.toLowerCase() +
-                      '.jpeg?alt=media',
-                ),
-              )),
+            borderRadius: BorderRadius.circular(30),
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: CachedNetworkImageProvider(
+                'https://firebasestorage.googleapis.com/v0/b/spotify-59c56.appspot.com/o/covers%2F' +
+                    imageSrc.toLowerCase() +
+                    '.jpeg?alt=media',
+              ),
+            ),
+          ),
           child: Align(
               alignment: Alignment.bottomRight,
               child: Container(
@@ -34,7 +39,16 @@ class SongImage extends StatelessWidget {
                     color:
                         context.Isdarkmode ? AppColor.darkgray : AppColor.gray),
                 child: IconButton(
-                    onPressed: () {}, icon: Icon(Icons.play_arrow_rounded)),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Songplayer(
+                              song: song,
+                            ),
+                          ));
+                    },
+                    icon: Icon(Icons.play_arrow_rounded)),
               )),
         ),
       ),
