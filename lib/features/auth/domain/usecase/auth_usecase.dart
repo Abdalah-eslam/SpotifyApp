@@ -22,3 +22,17 @@ class SigninUsecase implements Usecase<Either, SigninUserReq> {
     return sl<AuthRepo>().signIn(params!);
   }
 }
+
+class AddOrRemoveFavUsecase implements Usecase<Either, String> {
+  @override
+  Future<Either> call({String? params}) async {
+    return await sl<AuthRepo>().addOrRemoveFav(params!);
+  }
+}
+
+class isfavUseCase implements Usecase<bool, String> {
+  @override
+  Future<bool> call({String? params}) async {
+    return await sl<AuthRepo>().Isfav(params!);
+  }
+}

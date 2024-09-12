@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -88,7 +89,7 @@ class Songplayer extends StatelessWidget {
                       ))
                 ],
               ),
-              songSlider(),
+              const songSlider(),
             ],
           ),
         ),
@@ -122,7 +123,7 @@ class songSlider extends StatelessWidget {
                         .inSeconds
                         .toDouble(),
                     onChanged: (value) {},
-                    min: 0,
+                    min: 0.0,
                     max: context
                         .read<SongplayerCubit>()
                         .duration
@@ -137,6 +138,21 @@ class songSlider extends StatelessWidget {
                       Text(covertDuration(
                           context.read<SongplayerCubit>().duration)),
                     ],
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      context.read<SongplayerCubit>().playOrpauseSong();
+                    },
+                    child: Container(
+                      width: 80,
+                      height: 80,
+                      child: Icon(
+                          context.read<SongplayerCubit>().audioPlayer.playing
+                              ? Icons.pause
+                              : Icons.play_arrow),
+                      decoration: BoxDecoration(
+                          color: AppColor.primary, shape: BoxShape.circle),
+                    ),
                   )
                 ],
               ),

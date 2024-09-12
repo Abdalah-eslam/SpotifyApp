@@ -18,5 +18,7 @@ Future<void> inisializeDebend() async {
   sl.registerSingleton<SigninUsecase>(SigninUsecase());
   sl.registerSingleton<NewestsongUsecase>(NewestsongUsecase());
   sl.registerSingleton<SongFirebaseService>(SongFirebaseServiceImpl());
+  sl.registerSingleton<AddOrRemoveFavUsecase>(AddOrRemoveFavUsecase());
+  sl.registerSingleton<isfavUseCase>(isfavUseCase());
   sl.registerSingleton<SongRepo>(SongrepoImpl());
 }

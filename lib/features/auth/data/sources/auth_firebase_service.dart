@@ -7,6 +7,8 @@ import 'package:spotify_app/features/auth/data/models/signIn_user_req.dart';
 abstract class AuthFirebaseService {
   Future<Either> signIn(SigninUserReq user);
   Future<Either> signUp(CreateUserReq user);
+  Future<Either> addOrRemoveFav(String songId);
+  Future<bool> Isfav(String songId);
 }
 
 class AuthFirebaseServiceimpl implements AuthFirebaseService {
@@ -37,7 +39,8 @@ class AuthFirebaseServiceimpl implements AuthFirebaseService {
       );
       FirebaseFirestore.instance
           .collection('Users')
-          .add({'name': user.fullname, 'Email': data.user!.email});
+          .doc(data.user!.uid)
+          .set({'name': user.fullname, 'Email': data.user!.email});
 
       return right('signUp is successful');
     } on FirebaseAuthException catch (e) {
@@ -50,6 +53,65 @@ class AuthFirebaseServiceimpl implements AuthFirebaseService {
       return left(massage);
     } catch (e) {
       return left(e.toString());
+    }
+  }
+
+  Future<Either> addOrRemoveFav(String songID) async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    var userID = firebaseAuth.currentUser!.uid;
+    late bool Isfav;
+
+    try {
+      QuerySnapshot<Map<String, dynamic>> favSongs = await firebaseFirestore
+          .collection('users')
+          .doc(userID)
+          .collection('favorite')
+          .where('songID', isEqualTo: songID)
+          .get();
+      if (favSongs.docs.isNotEmpty) {
+        favSongs.docs.first.reference.delete();
+        Isfav = false;
+      } else {
+        await firebaseFirestore
+            .collection('users')
+            .doc(userID)
+            .collection('favorite')
+            .add({'songID': songID, 'releaseTme': Timestamp.now()});
+        Isfav = true;
+      }
+      return right(Isfav);
+    } on Exception catch (e) {
+      return left('there was an error');
+    }
+  }
+
+  @override
+  Future<bool> Isfav(String songId) async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    var userID = firebaseAuth.currentUser!.uid;
+
+    try {
+      QuerySnapshot<Map<String, dynamic>> favSongs = await firebaseFirestore
+          .collection('users')
+          .doc(userID)
+          .collection('favorite')
+          .where('songID', isEqualTo: songId)
+          .get();
+      if (favSongs.docs.isNotEmpty) {
+        favSongs.docs.first.reference.delete();
+        return false;
+      } else {
+        await firebaseFirestore
+            .collection('users')
+            .doc(userID)
+            .collection('favorite')
+            .add({'songID': songId, 'releaseTme': Timestamp.now()});
+        return true;
+      }
+    } on Exception catch (e) {
+      return false;
     }
   }
 }
