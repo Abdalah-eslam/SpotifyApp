@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spotify_app/core/helpers/Is_darkmode.dart';
+import 'package:spotify_app/core/widgets/Isfav.dart';
 import 'package:spotify_app/features/home/domain/entities/songEnitites.dart';
 import 'package:spotify_app/features/songPlayer/presentation/Songplayer.dart';
 
@@ -57,14 +58,7 @@ class SongsitemListview extends StatelessWidget {
                   songs[index].duration.toString().replaceAll('.', ':'),
                   style: const TextStyle(fontSize: 16),
                 ),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.favorite,
-                      color: context.Isdarkmode
-                          ? AppColor.darkgray
-                          : AppColor.gray,
-                    ))
+                FavICon(songenitites: songs[index])
               ],
             ),
           ),

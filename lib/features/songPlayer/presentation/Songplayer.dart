@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:spotify_app/core/helpers/Is_darkmode.dart';
 import 'package:spotify_app/core/theme_app/app_color.dart';
+import 'package:spotify_app/core/widgets/Isfav.dart';
 import 'package:spotify_app/features/home/domain/entities/songEnitites.dart';
 import 'package:spotify_app/features/songPlayer/presentation/manger/cubit/songplayer_cubit.dart';
 
@@ -78,15 +79,7 @@ class Songplayer extends StatelessWidget {
                       ),
                     ],
                   ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.favorite_outline_outlined,
-                        size: 35,
-                        color: context.Isdarkmode
-                            ? AppColor.gray
-                            : AppColor.darkgray,
-                      ))
+                  FavICon(songenitites: song)
                 ],
               ),
               const songSlider(),
@@ -117,6 +110,8 @@ class songSlider extends StatelessWidget {
               child: Column(
                 children: [
                   Slider(
+                    activeColor: AppColor.primary,
+                    thumbColor: AppColor.primary,
                     value: context
                         .read<SongplayerCubit>()
                         .position

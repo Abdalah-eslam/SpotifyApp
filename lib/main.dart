@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             theme: AppTheme.lightTheme,
             themeMode: mode,
             darkTheme: ThemeData.dark(),
-            home: const Splashview(),
+            home: const SafeArea(child: Splashview()),
           );
         },
       ),

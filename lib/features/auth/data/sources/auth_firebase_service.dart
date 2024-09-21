@@ -39,8 +39,8 @@ class AuthFirebaseServiceimpl implements AuthFirebaseService {
       );
       FirebaseFirestore.instance
           .collection('Users')
-          .doc(data.user!.uid)
-          .set({'name': user.fullname, 'Email': data.user!.email});
+          .doc(data.user?.uid)
+          .set({'name': user.fullname, 'Email': data.user?.email});
 
       return right('signUp is successful');
     } on FirebaseAuthException catch (e) {
@@ -59,30 +59,37 @@ class AuthFirebaseServiceimpl implements AuthFirebaseService {
   Future<Either> addOrRemoveFav(String songID) async {
     FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    var userID = firebaseAuth.currentUser!.uid;
-    late bool Isfav;
+    var user = firebaseAuth.currentUser;
+
+    if (user == null) {
+      return left('User not authenticated');
+    }
+
+    var userID = user.uid;
+    late bool isFav;
 
     try {
       QuerySnapshot<Map<String, dynamic>> favSongs = await firebaseFirestore
-          .collection('users')
+          .collection('Users')
           .doc(userID)
           .collection('favorite')
           .where('songID', isEqualTo: songID)
           .get();
+
       if (favSongs.docs.isNotEmpty) {
         favSongs.docs.first.reference.delete();
-        Isfav = false;
+        isFav = false;
       } else {
         await firebaseFirestore
-            .collection('users')
+            .collection('Users')
             .doc(userID)
             .collection('favorite')
-            .add({'songID': songID, 'releaseTme': Timestamp.now()});
-        Isfav = true;
+            .add({'songID': songID, 'releaseTime': Timestamp.now()});
+        isFav = true;
       }
-      return right(Isfav);
+      return right(isFav);
     } on Exception catch (e) {
-      return left('there was an error');
+      return left('Error: $e');
     }
   }
 
@@ -94,17 +101,18 @@ class AuthFirebaseServiceimpl implements AuthFirebaseService {
 
     try {
       QuerySnapshot<Map<String, dynamic>> favSongs = await firebaseFirestore
-          .collection('users')
+          .collection('Users')
           .doc(userID)
           .collection('favorite')
           .where('songID', isEqualTo: songId)
           .get();
+
       if (favSongs.docs.isNotEmpty) {
         favSongs.docs.first.reference.delete();
         return false;
       } else {
         await firebaseFirestore
-            .collection('users')
+            .collection('Users')
             .doc(userID)
             .collection('favorite')
             .add({'songID': songId, 'releaseTme': Timestamp.now()});
